@@ -19,18 +19,16 @@ class Board
     @array_cases.length.times do |i|
       if @array_cases[i].valeur == nil
         print "#{@array_cases[i].case_number}        "
-      else
+        else
         print "#{@array_cases[i].valeur}        "
       end
 
       if i+1 == 3
         puts " "
-      elsif i+1 == 6
+        elsif i+1 == 6
         puts " "
-      else
-
+        else
       end
-
     end
     puts " "
   end
@@ -78,7 +76,7 @@ attr_reader :list_case_p
       @list_case_p = Array.new
   end
 
-  def list_case(case_num)  #List the cases that belongs to the player
+  def list_case(case_num)  #Liste des cases que les joueurs ont jouées
 
       @list_case_p.push(case_num)
   end
@@ -86,7 +84,7 @@ end
 
 class Game
   def initialize
-    #TO DO : créé 2 joueurs, créé un board
+    #TO DO : créé 2 joueurs
     puts "Quel est le prénom du joueur 1 ?"
     print ">"
     nom_1 = gets.chomp
@@ -98,7 +96,7 @@ class Game
     @player_1 = Player.new(nom_1, "X")
     @player_2 = Player.new(nom_2, "O")
 
-    #Crée un board
+    #Créé un board
     @board = Board.new
 
   end
@@ -114,8 +112,9 @@ class Game
     @board.to_s
     gameover = 0
     player_1_turn = true
-    #demande au joueur il joue quoi,
+    #demande au joueur il joue quoi
     while gameover == 0
+      #Tour du player_1
       if player_1_turn
         puts "#{@player_1.nom_player.capitalize} à votre tour :"
         print ">"
@@ -124,7 +123,7 @@ class Game
         @board.play(move, @player_1.valeur_player)
 
         #renvoie les cases jouées par player_1
-    #  "1: #{@player_1.list_case(move)}"
+        @player_1.list_case(move)
 
         player_1_turn = false
       else
@@ -137,7 +136,7 @@ class Game
         @board.play(move,@player_2.valeur_player)
 
         #renvoie les cases jouées par player_2
-        "2: #{@player_2.list_case(move)}"
+        @player_2.list_case(move)
 
         player_1_turn = true
       end
@@ -148,7 +147,11 @@ class Game
       win_blocks = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]
       win_blocks.each {|b|
         if ((b - @player_1.list_case_p).empty?)
-          puts gameover = 1
+          gameover = 1
+          puts "#{@player_1.nom_player.capitalize} a gagné"
+        elsif ((b - @player_2.list_case_p).empty?)
+          gameover = 2
+          puts"#{@player_2.nom_player.capitalize} a gagné"
         end
     }
     end
